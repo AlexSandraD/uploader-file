@@ -52052,6 +52052,353 @@ var global = arguments[3];
 
   return plugin;
 });
+},{}],"../node_modules/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js":[function(require,module,exports) {
+var define;
+var global = arguments[3];
+/*!
+ * FilePondPluginFileValidateSize 2.2.0
+ * Licensed under MIT, https://opensource.org/licenses/MIT/
+ * Please visit https://pqina.nl/filepond/ for details.
+ */
+
+/* eslint-disable */
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : (global = global || self, global.FilePondPluginFileValidateSize = factory());
+})(this, function () {
+  'use strict';
+
+  var plugin = function plugin(_ref) {
+    var addFilter = _ref.addFilter,
+        utils = _ref.utils; // get quick reference to Type utils
+
+    var Type = utils.Type,
+        replaceInString = utils.replaceInString,
+        toNaturalFileSize = utils.toNaturalFileSize; // filtering if an item is allowed in hopper
+
+    addFilter('ALLOW_HOPPER_ITEM', function (file, _ref2) {
+      var query = _ref2.query;
+
+      if (!query('GET_ALLOW_FILE_SIZE_VALIDATION')) {
+        return true;
+      }
+
+      var sizeMax = query('GET_MAX_FILE_SIZE');
+
+      if (sizeMax !== null && file.size >= sizeMax) {
+        return false;
+      }
+
+      var sizeMin = query('GET_MIN_FILE_SIZE');
+
+      if (sizeMin !== null && file.size <= sizeMin) {
+        return false;
+      }
+
+      return true;
+    }); // called for each file that is loaded
+    // right before it is set to the item state
+    // should return a promise
+
+    addFilter('LOAD_FILE', function (file, _ref3) {
+      var query = _ref3.query;
+      return new Promise(function (resolve, reject) {
+        // if not allowed, all fine, exit
+        if (!query('GET_ALLOW_FILE_SIZE_VALIDATION')) {
+          return resolve(file);
+        } // check if file should be filtered
+
+
+        var fileFilter = query('GET_FILE_VALIDATE_SIZE_FILTER');
+
+        if (fileFilter && !fileFilter(file)) {
+          return resolve(file);
+        } // reject or resolve based on file size
+
+
+        var sizeMax = query('GET_MAX_FILE_SIZE');
+
+        if (sizeMax !== null && file.size >= sizeMax) {
+          reject({
+            status: {
+              main: query('GET_LABEL_MAX_FILE_SIZE_EXCEEDED'),
+              sub: replaceInString(query('GET_LABEL_MAX_FILE_SIZE'), {
+                filesize: toNaturalFileSize(sizeMax)
+              })
+            }
+          });
+          return;
+        } // reject or resolve based on file size
+
+
+        var sizeMin = query('GET_MIN_FILE_SIZE');
+
+        if (sizeMin !== null && file.size <= sizeMin) {
+          reject({
+            status: {
+              main: query('GET_LABEL_MIN_FILE_SIZE_EXCEEDED'),
+              sub: replaceInString(query('GET_LABEL_MIN_FILE_SIZE'), {
+                filesize: toNaturalFileSize(sizeMin)
+              })
+            }
+          });
+          return;
+        } // returns the current option value
+
+
+        var totalSizeMax = query('GET_MAX_TOTAL_FILE_SIZE');
+
+        if (totalSizeMax !== null) {
+          // get the current total file size
+          var currentTotalSize = query('GET_ACTIVE_ITEMS').reduce(function (total, item) {
+            return total + item.fileSize;
+          }, 0); // get the size of the new file
+
+          if (currentTotalSize > totalSizeMax) {
+            reject({
+              status: {
+                main: query('GET_LABEL_MAX_TOTAL_FILE_SIZE_EXCEEDED'),
+                sub: replaceInString(query('GET_LABEL_MAX_TOTAL_FILE_SIZE'), {
+                  filesize: toNaturalFileSize(totalSizeMax)
+                })
+              }
+            });
+            return;
+          }
+        } // file is fine, let's pass it back
+
+
+        resolve(file);
+      });
+    });
+    return {
+      options: {
+        // Enable or disable file type validation
+        allowFileSizeValidation: [true, Type.BOOLEAN],
+        // Max individual file size in bytes
+        maxFileSize: [null, Type.INT],
+        // Min individual file size in bytes
+        minFileSize: [null, Type.INT],
+        // Max total file size in bytes
+        maxTotalFileSize: [null, Type.INT],
+        // Filter the files that need to be validated for size
+        fileValidateSizeFilter: [null, Type.FUNCTION],
+        // error labels
+        labelMinFileSizeExceeded: ['File is too small', Type.STRING],
+        labelMinFileSize: ['Minimum file size is {filesize}', Type.STRING],
+        labelMaxFileSizeExceeded: ['File is too large', Type.STRING],
+        labelMaxFileSize: ['Maximum file size is {filesize}', Type.STRING],
+        labelMaxTotalFileSizeExceeded: ['Maximum total size exceeded', Type.STRING],
+        labelMaxTotalFileSize: ['Maximum total file size is {filesize}', Type.STRING]
+      }
+    };
+  }; // fire pluginloaded event if running in browser, this allows registering the plugin when using async script tags
+
+
+  var isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
+
+  if (isBrowser) {
+    document.dispatchEvent(new CustomEvent('FilePond:pluginloaded', {
+      detail: plugin
+    }));
+  }
+
+  return plugin;
+});
+},{}],"../node_modules/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js":[function(require,module,exports) {
+var define;
+var global = arguments[3];
+/*!
+ * FilePondPluginFileValidateType 1.2.4
+ * Licensed under MIT, https://opensource.org/licenses/MIT/
+ * Please visit https://pqina.nl/filepond/ for details.
+ */
+
+/* eslint-disable */
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : (global = global || self, global.FilePondPluginFileValidateType = factory());
+})(this, function () {
+  'use strict';
+
+  var plugin = function plugin(_ref) {
+    var addFilter = _ref.addFilter,
+        utils = _ref.utils; // get quick reference to Type utils
+
+    var Type = utils.Type,
+        isString = utils.isString,
+        replaceInString = utils.replaceInString,
+        guesstimateMimeType = utils.guesstimateMimeType,
+        getExtensionFromFilename = utils.getExtensionFromFilename,
+        getFilenameFromURL = utils.getFilenameFromURL;
+
+    var mimeTypeMatchesWildCard = function mimeTypeMatchesWildCard(mimeType, wildcard) {
+      var mimeTypeGroup = (/^[^/]+/.exec(mimeType) || []).pop(); // image/png -> image
+
+      var wildcardGroup = wildcard.slice(0, -2); // image/* -> image
+
+      return mimeTypeGroup === wildcardGroup;
+    };
+
+    var isValidMimeType = function isValidMimeType(acceptedTypes, userInputType) {
+      return acceptedTypes.some(function (acceptedType) {
+        // accepted is wildcard mime type
+        if (/\*$/.test(acceptedType)) {
+          return mimeTypeMatchesWildCard(userInputType, acceptedType);
+        } // is normal mime type
+
+
+        return acceptedType === userInputType;
+      });
+    };
+
+    var getItemType = function getItemType(item) {
+      // if the item is a url we guess the mime type by the extension
+      var type = '';
+
+      if (isString(item)) {
+        var filename = getFilenameFromURL(item);
+        var extension = getExtensionFromFilename(filename);
+
+        if (extension) {
+          type = guesstimateMimeType(extension);
+        }
+      } else {
+        type = item.type;
+      }
+
+      return type;
+    };
+
+    var validateFile = function validateFile(item, acceptedFileTypes, typeDetector) {
+      // no types defined, everything is allowed \o/
+      if (acceptedFileTypes.length === 0) {
+        return true;
+      } // gets the item type
+
+
+      var type = getItemType(item); // no type detector, test now
+
+      if (!typeDetector) {
+        return isValidMimeType(acceptedFileTypes, type);
+      } // use type detector
+
+
+      return new Promise(function (resolve, reject) {
+        typeDetector(item, type).then(function (detectedType) {
+          if (isValidMimeType(acceptedFileTypes, detectedType)) {
+            resolve();
+          } else {
+            reject();
+          }
+        }).catch(reject);
+      });
+    };
+
+    var applyMimeTypeMap = function applyMimeTypeMap(map) {
+      return function (acceptedFileType) {
+        return map[acceptedFileType] === null ? false : map[acceptedFileType] || acceptedFileType;
+      };
+    }; // setup attribute mapping for accept
+
+
+    addFilter('SET_ATTRIBUTE_TO_OPTION_MAP', function (map) {
+      return Object.assign(map, {
+        accept: 'acceptedFileTypes'
+      });
+    }); // filtering if an item is allowed in hopper
+
+    addFilter('ALLOW_HOPPER_ITEM', function (file, _ref2) {
+      var query = _ref2.query; // if we are not doing file type validation exit
+
+      if (!query('GET_ALLOW_FILE_TYPE_VALIDATION')) {
+        return true;
+      } // we validate the file against the accepted file types
+
+
+      return validateFile(file, query('GET_ACCEPTED_FILE_TYPES'));
+    }); // called for each file that is loaded
+    // right before it is set to the item state
+    // should return a promise
+
+    addFilter('LOAD_FILE', function (file, _ref3) {
+      var query = _ref3.query;
+      return new Promise(function (resolve, reject) {
+        if (!query('GET_ALLOW_FILE_TYPE_VALIDATION')) {
+          resolve(file);
+          return;
+        }
+
+        var acceptedFileTypes = query('GET_ACCEPTED_FILE_TYPES'); // custom type detector method
+
+        var typeDetector = query('GET_FILE_VALIDATE_TYPE_DETECT_TYPE'); // if invalid, exit here
+
+        var validationResult = validateFile(file, acceptedFileTypes, typeDetector);
+
+        var handleRejection = function handleRejection() {
+          var acceptedFileTypesMapped = acceptedFileTypes.map(applyMimeTypeMap(query('GET_FILE_VALIDATE_TYPE_LABEL_EXPECTED_TYPES_MAP'))).filter(function (label) {
+            return label !== false;
+          });
+          reject({
+            status: {
+              main: query('GET_LABEL_FILE_TYPE_NOT_ALLOWED'),
+              sub: replaceInString(query('GET_FILE_VALIDATE_TYPE_LABEL_EXPECTED_TYPES'), {
+                allTypes: acceptedFileTypesMapped.join(', '),
+                allButLastType: acceptedFileTypesMapped.slice(0, -1).join(', '),
+                lastType: acceptedFileTypesMapped[acceptedFileTypesMapped.length - 1]
+              })
+            }
+          });
+        }; // has returned new filename immidiately
+
+
+        if (typeof validationResult === 'boolean') {
+          if (!validationResult) {
+            return handleRejection();
+          }
+
+          return resolve(file);
+        } // is promise
+
+
+        validationResult.then(function () {
+          resolve(file);
+        }).catch(handleRejection);
+      });
+    }); // expose plugin
+
+    return {
+      // default options
+      options: {
+        // Enable or disable file type validation
+        allowFileTypeValidation: [true, Type.BOOLEAN],
+        // What file types to accept
+        acceptedFileTypes: [[], Type.ARRAY],
+        // - must be comma separated
+        // - mime types: image/png, image/jpeg, image/gif
+        // - extensions: .png, .jpg, .jpeg ( not enabled yet )
+        // - wildcards: image/*
+        // label to show when a type is not allowed
+        labelFileTypeNotAllowed: ['File is of invalid type', Type.STRING],
+        // nicer label
+        fileValidateTypeLabelExpectedTypes: ['Expects {allButLastType} or {lastType}', Type.STRING],
+        // map mime types to extensions
+        fileValidateTypeLabelExpectedTypesMap: [{}, Type.OBJECT],
+        // Custom function to detect type of file
+        fileValidateTypeDetectType: [null, Type.FUNCTION]
+      }
+    };
+  }; // fire pluginloaded event if running in browser, this allows registering the plugin when using async script tags
+
+
+  var isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
+
+  if (isBrowser) {
+    document.dispatchEvent(new CustomEvent('FilePond:pluginloaded', {
+      detail: plugin
+    }));
+  }
+
+  return plugin;
+});
 },{}],"../node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
@@ -52078,6 +52425,10 @@ require("filepond/dist/filepond.min.css");
 var _filepondPluginImageExifOrientation = _interopRequireDefault(require("filepond-plugin-image-exif-orientation"));
 
 var _filepondPluginImagePreview = _interopRequireDefault(require("filepond-plugin-image-preview"));
+
+var _filepondPluginFileValidateSize = _interopRequireDefault(require("filepond-plugin-file-validate-size"));
+
+var _filepondPluginFileValidateType = _interopRequireDefault(require("filepond-plugin-file-validate-type"));
 
 require("filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css");
 
@@ -52135,7 +52486,8 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-(0, _reactFilepond.registerPlugin)(_filepondPluginImageExifOrientation.default, _filepondPluginImagePreview.default);
+(0, _reactFilepond.registerPlugin)(_filepondPluginImageExifOrientation.default, _filepondPluginImagePreview.default, _filepondPluginFileValidateSize.default, _filepondPluginFileValidateType.default);
+console.log(_filepondPluginFileValidateSize.default);
 
 var Filepond = function Filepond(_ref) {
   var className = _ref.className;
@@ -52148,8 +52500,7 @@ var Filepond = function Filepond(_ref) {
   var _useState3 = (0, _react.useState)(''),
       _useState4 = _slicedToArray(_useState3, 2),
       uploadFile = _useState4[0],
-      setFile = _useState4[1]; // const [section, setSection] = useState('Section')
-
+      setFile = _useState4[1];
 
   var onFileChange = function onFileChange(files) {
     var items = files.map(function (fileItem) {
@@ -52180,7 +52531,9 @@ var Filepond = function Filepond(_ref) {
     onupdatefiles: function onupdatefiles(fileItems) {
       return onFileChange(fileItems);
     },
+    acceptedFileTypes: ['image/*'],
     instantUpload: false,
+    maxFileSize: "1MB",
     labelIdle: "Drag & Drop your files or <span class=\"filepond--label-action\">Browse</span>"
   })), _react.default.createElement(Button, {
     onClick: onSubmit
@@ -52195,7 +52548,7 @@ var Button = _styledComponents.default.button(_templateObject3());
 
 var _default = Filepond;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js","axios":"../node_modules/axios/index.js","react-filepond":"../node_modules/react-filepond/dist/react-filepond.js","filepond/dist/filepond.min.css":"../node_modules/filepond/dist/filepond.min.css","filepond-plugin-image-exif-orientation":"../node_modules/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js","filepond-plugin-image-preview":"../node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js","filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css":"../node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"}],"index.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js","axios":"../node_modules/axios/index.js","react-filepond":"../node_modules/react-filepond/dist/react-filepond.js","filepond/dist/filepond.min.css":"../node_modules/filepond/dist/filepond.min.css","filepond-plugin-image-exif-orientation":"../node_modules/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js","filepond-plugin-image-preview":"../node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js","filepond-plugin-file-validate-size":"../node_modules/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js","filepond-plugin-file-validate-type":"../node_modules/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js","filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css":"../node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -52252,7 +52605,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54132" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54942" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

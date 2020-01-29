@@ -8,34 +8,42 @@ import 'filepond/dist/filepond.min.css'
 
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size'
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview)
+registerPlugin(
+  FilePondPluginImageExifOrientation,
+  FilePondPluginImagePreview,
+  FilePondPluginFileValidateSize,
+  FilePondPluginFileValidateType
+)
+
+console.log(FilePondPluginFileValidateSize);
 
 const Filepond = ({ className }) => {
   const [imgCollection, setImgCollection] = useState([])
   const [uploadFile, setFile] = useState('')
-  // const [section, setSection] = useState('Section')
 
   const onFileChange = (files) => {
     const items = files.map((fileItem) => fileItem.file)
     setImgCollection([...imgCollection, items])
   }
 
+
   const onSubmit = (e) => {
     e.preventDefault()
-
     const formData = new FormData()
     for (const img in imgCollection[0]) {
       formData.append('imgCollection', imgCollection[0][img])
     }
-
     axios.post(`http://localhost:3001/create`, formData, {}).then((res) => {
       console.log('image Created', res.data)
       setImgCollection([])
       setFile(res.data)
     })
   }
+
 
   return (
     <UploadFile>
@@ -45,7 +53,9 @@ const Filepond = ({ className }) => {
           allowMultiple={true}
           server={null}
           onupdatefiles={(fileItems) => onFileChange(fileItems)}
+          acceptedFileTypes={['image/*']}
           instantUpload={false}
+          maxFileSize="1MB"
           labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
         />
       </FilepondStyle>
