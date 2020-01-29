@@ -21,21 +21,21 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-let images = [];
+// let images = [];
 
 const storage = new Storage({
   projectId: "test-upload-file-266613",
   keyFilename: path.join(__dirname, "./config/keys.json")
 });
 
-app.get("/home", function(req, res) {
-  console.log("Inside Home Login");
-  res.writeHead(200, {
-    "Content-Type": "application/json"
-  });
-  console.log("images : ", JSON.stringify(images));
-  res.end(JSON.stringify(images));
-});
+// app.get("/home", function(req, res) {
+//   console.log("Inside Home Login");
+//   res.writeHead(200, {
+//     "Content-Type": "application/json"
+//   });
+//   console.log("images : ", JSON.stringify(images));
+//   res.end(JSON.stringify(images));
+// });
 
 app.post("/create", function(req, res, next) {
   try {
@@ -60,7 +60,6 @@ app.post("/create", function(req, res, next) {
 
       blobStream.on("finish", () => {
         const url = `https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`; //image url from firebase server
-        console.log("url", url);
       });
 
       blobStream.end(file.buffer);

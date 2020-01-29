@@ -19,8 +19,6 @@ registerPlugin(
   FilePondPluginFileValidateType
 )
 
-console.log(FilePondPluginFileValidateSize);
-
 const Filepond = ({ className }) => {
   const [imgCollection, setImgCollection] = useState([])
   const [uploadFile, setFile] = useState('')
@@ -29,7 +27,6 @@ const Filepond = ({ className }) => {
     const items = files.map((fileItem) => fileItem.file)
     setImgCollection([...imgCollection, items])
   }
-
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -43,7 +40,6 @@ const Filepond = ({ className }) => {
       setFile(res.data)
     })
   }
-
 
   return (
     <UploadFile>

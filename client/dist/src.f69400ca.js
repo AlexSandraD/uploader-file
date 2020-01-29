@@ -52487,7 +52487,6 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 (0, _reactFilepond.registerPlugin)(_filepondPluginImageExifOrientation.default, _filepondPluginImagePreview.default, _filepondPluginFileValidateSize.default, _filepondPluginFileValidateType.default);
-console.log(_filepondPluginFileValidateSize.default);
 
 var Filepond = function Filepond(_ref) {
   var className = _ref.className;
