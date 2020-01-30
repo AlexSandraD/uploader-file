@@ -1,5 +1,4 @@
 const express = require("express");
-const router = express.Router();
 const path = require("path");
 const multer = require("multer");
 const upload = multer().array("imgCollection");
@@ -68,8 +67,6 @@ app.post("/create", function(req, res, next) {
     res.send(err);
   }
 });
-
-module.exports = router;
 
 //start your server on port 3001
 app.listen(3001, () => {

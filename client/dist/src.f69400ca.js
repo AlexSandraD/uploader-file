@@ -52438,8 +52438,18 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\n  font-size: 1em;\n  color: #5c5ca9;\n"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["\n  font-size: 1.5em;\n  background: transparent;\n  color: white;\n  cursor: pointer;\n"]);
+  var data = _taggedTemplateLiteral(["\n  font-size: 1.5em;\n  background: transparent;\n  color: white;\n  cursor: pointer;\n  margin-bottom: 10px;\n"]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -52536,7 +52546,7 @@ var Filepond = function Filepond(_ref) {
     labelIdle: "Drag & Drop your images or <span class=\"filepond--label-action\">Browse</span>"
   })), _react.default.createElement(Button, {
     onClick: onSubmit
-  }, "Submit"), _react.default.createElement("p", null, uploadFile));
+  }, "Submit"), _react.default.createElement(Upload, null, uploadFile));
 };
 
 var UploadFile = _styledComponents.default.div(_templateObject());
@@ -52544,6 +52554,8 @@ var UploadFile = _styledComponents.default.div(_templateObject());
 var FilepondStyle = _styledComponents.default.div(_templateObject2());
 
 var Button = _styledComponents.default.button(_templateObject3());
+
+var Upload = _styledComponents.default.p(_templateObject4());
 
 var _default = Filepond;
 exports.default = _default;
@@ -52604,7 +52616,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56557" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62128" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

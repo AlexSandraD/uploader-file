@@ -56,7 +56,7 @@ const Filepond = ({ className }) => {
         />
       </FilepondStyle>
       <Button onClick={onSubmit}>Submit</Button>
-      <p>{uploadFile}</p>
+      <Upload>{uploadFile}</Upload>
     </UploadFile>
   )
 }
@@ -83,6 +83,12 @@ const Button = styled.button`
   background: transparent;
   color: white;
   cursor: pointer;
+  margin-bottom: 10px;
+`
+
+const Upload = styled.p`
+  font-size: 1em;
+  color: #5c5ca9;
 `
 
 export default Filepond
