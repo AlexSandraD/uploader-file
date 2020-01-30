@@ -52404,7 +52404,7 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/shared/filepond.jsx":[function(require,module,exports) {
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/filepond.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -52449,7 +52449,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n  width: 25%;\n"]);
+  var data = _taggedTemplateLiteral(["\n  width: 35%;\n  @media (max-width: 768px) {\n    width: 85%;\n  }\n"]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -52533,7 +52533,7 @@ var Filepond = function Filepond(_ref) {
     acceptedFileTypes: ['image/*'],
     instantUpload: false,
     maxFileSize: "1MB",
-    labelIdle: "Drag & Drop your files or <span class=\"filepond--label-action\">Browse</span>"
+    labelIdle: "Drag & Drop your images or <span class=\"filepond--label-action\">Browse</span>"
   })), _react.default.createElement(Button, {
     onClick: onSubmit
   }, "Submit"), _react.default.createElement("p", null, uploadFile));
@@ -52566,7 +52566,7 @@ var react_dom_1 = __importDefault(require("react-dom"));
 
 var global_style_1 = require("./global-style");
 
-var filepond_1 = __importDefault(require("./components/shared/filepond"));
+var filepond_1 = __importDefault(require("./components/filepond"));
 
 console.info("\u269B\uFE0F " + react_1.default.version);
 
@@ -52576,7 +52576,7 @@ var App = function App() {
 
 react_dom_1.default.render(react_1.default.createElement(App, null), document.getElementById('root'));
 module.hot && module.hot.accept();
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./global-style":"global-style.ts","./components/shared/filepond":"components/shared/filepond.jsx"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./global-style":"global-style.ts","./components/filepond":"components/filepond.jsx"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -52604,7 +52604,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54942" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56557" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -21,21 +21,10 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// let images = [];
-
 const storage = new Storage({
   projectId: "test-upload-file-266613",
   keyFilename: path.join(__dirname, "./config/keys.json")
 });
-
-// app.get("/home", function(req, res) {
-//   console.log("Inside Home Login");
-//   res.writeHead(200, {
-//     "Content-Type": "application/json"
-//   });
-//   console.log("images : ", JSON.stringify(images));
-//   res.end(JSON.stringify(images));
-// });
 
 app.post("/create", function(req, res, next) {
   try {
@@ -67,11 +56,9 @@ app.post("/create", function(req, res, next) {
 
     upload(req, res, function(err) {
       let files = req.files;
-
       for (let file in files) {
         uploadFile(files[file], req.body.folder);
       }
-
       if (err) {
         return res.end("Error uploading file." + err);
       }

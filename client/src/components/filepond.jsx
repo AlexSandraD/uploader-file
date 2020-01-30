@@ -52,7 +52,7 @@ const Filepond = ({ className }) => {
           acceptedFileTypes={['image/*']}
           instantUpload={false}
           maxFileSize="1MB"
-          labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+          labelIdle='Drag & Drop your images or <span class="filepond--label-action">Browse</span>'
         />
       </FilepondStyle>
       <Button onClick={onSubmit}>Submit</Button>
@@ -72,7 +72,10 @@ const UploadFile = styled.div`
 `
 
 const FilepondStyle = styled.div`
-  width: 25%;
+  width: 35%;
+  @media (max-width: 768px) {
+    width: 85%;
+  }
 `
 
 const Button = styled.button`
