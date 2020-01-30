@@ -6,6 +6,8 @@ import axios from 'axios'
 import { FilePond, registerPlugin } from 'react-filepond'
 import 'filepond/dist/filepond.min.css'
 
+import { IFile } from '../lib/interfaces'
+
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size'
@@ -19,16 +21,17 @@ registerPlugin(
   FilePondPluginFileValidateType
 )
 
-const Filepond = ({ className }) => {
-  const [imgCollection, setImgCollection] = useState([])
-  const [uploadFile, setFile] = useState('')
 
-  const onFileChange = (files) => {
-    const items = files.map((fileItem) => fileItem.file)
+export const Filepond: React.FC = () => {
+  const [imgCollection, setImgCollection] = useState<IFile>([])
+  const [uploadFile, setFile] = useState<string>('')
+
+  const onFileChange = (files: []) => {
+    const items = files.map((fileItem: IFile) => fileItem.file)
     setImgCollection([...imgCollection, items])
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.MouseEvent) => {
     e.preventDefault()
     const formData = new FormData()
     for (const img in imgCollection[0]) {
@@ -48,7 +51,7 @@ const Filepond = ({ className }) => {
           files={imgCollection}
           allowMultiple={true}
           server={null}
-          onupdatefiles={(fileItems) => onFileChange(fileItems)}
+          onupdatefiles={(fileItems: any) => onFileChange(fileItems)}
           acceptedFileTypes={['image/*']}
           instantUpload={false}
           maxFileSize="1MB"

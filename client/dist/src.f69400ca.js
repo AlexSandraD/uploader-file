@@ -52404,118 +52404,91 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/filepond.jsx":[function(require,module,exports) {
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/filepond.tsx":[function(require,module,exports) {
 "use strict";
+
+var __makeTemplateObject = this && this.__makeTemplateObject || function (cooked, raw) {
+  if (Object.defineProperty) {
+    Object.defineProperty(cooked, "raw", {
+      value: raw
+    });
+  } else {
+    cooked.raw = raw;
+  }
+
+  return cooked;
+};
+
+var __spreadArrays = this && this.__spreadArrays || function () {
+  for (var s = 0, i = 0, il = arguments.length; i < il; i++) {
+    s += arguments[i].length;
+  }
+
+  for (var r = Array(s), k = 0, i = 0; i < il; i++) {
+    for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++) {
+      r[k] = a[j];
+    }
+  }
+
+  return r;
+};
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
 
-var _react = _interopRequireWildcard(require("react"));
+var react_1 = __importStar(require("react"));
 
-var _styledComponents = _interopRequireDefault(require("styled-components"));
+var styled_components_1 = __importDefault(require("styled-components"));
 
-var _axios = _interopRequireDefault(require("axios"));
+var axios_1 = __importDefault(require("axios"));
 
-var _reactFilepond = require("react-filepond");
+var react_filepond_1 = require("react-filepond");
 
 require("filepond/dist/filepond.min.css");
 
-var _filepondPluginImageExifOrientation = _interopRequireDefault(require("filepond-plugin-image-exif-orientation"));
+var filepond_plugin_image_exif_orientation_1 = __importDefault(require("filepond-plugin-image-exif-orientation"));
 
-var _filepondPluginImagePreview = _interopRequireDefault(require("filepond-plugin-image-preview"));
+var filepond_plugin_image_preview_1 = __importDefault(require("filepond-plugin-image-preview"));
 
-var _filepondPluginFileValidateSize = _interopRequireDefault(require("filepond-plugin-file-validate-size"));
+var filepond_plugin_file_validate_size_1 = __importDefault(require("filepond-plugin-file-validate-size"));
 
-var _filepondPluginFileValidateType = _interopRequireDefault(require("filepond-plugin-file-validate-type"));
+var filepond_plugin_file_validate_type_1 = __importDefault(require("filepond-plugin-file-validate-type"));
 
 require("filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+react_filepond_1.registerPlugin(filepond_plugin_image_exif_orientation_1.default, filepond_plugin_image_preview_1.default, filepond_plugin_file_validate_size_1.default, filepond_plugin_file_validate_type_1.default);
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+exports.Filepond = function () {
+  var _a = react_1.useState([]),
+      imgCollection = _a[0],
+      setImgCollection = _a[1];
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _templateObject4() {
-  var data = _taggedTemplateLiteral(["\n  font-size: 1em;\n  color: #5c5ca9;\n"]);
-
-  _templateObject4 = function _templateObject4() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject3() {
-  var data = _taggedTemplateLiteral(["\n  font-size: 1.5em;\n  background: transparent;\n  color: white;\n  cursor: pointer;\n  margin-bottom: 10px;\n"]);
-
-  _templateObject3 = function _templateObject3() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n  width: 35%;\n  @media (max-width: 768px) {\n    width: 85%;\n  }\n"]);
-
-  _templateObject2 = function _templateObject2() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  width: 100%;\n  height: 100vh;\n  background: grey;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n"]);
-
-  _templateObject = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-(0, _reactFilepond.registerPlugin)(_filepondPluginImageExifOrientation.default, _filepondPluginImagePreview.default, _filepondPluginFileValidateSize.default, _filepondPluginFileValidateType.default);
-
-var Filepond = function Filepond(_ref) {
-  var className = _ref.className;
-
-  var _useState = (0, _react.useState)([]),
-      _useState2 = _slicedToArray(_useState, 2),
-      imgCollection = _useState2[0],
-      setImgCollection = _useState2[1];
-
-  var _useState3 = (0, _react.useState)(''),
-      _useState4 = _slicedToArray(_useState3, 2),
-      uploadFile = _useState4[0],
-      setFile = _useState4[1];
+  var _b = react_1.useState(''),
+      uploadFile = _b[0],
+      setFile = _b[1];
 
   var onFileChange = function onFileChange(files) {
     var items = files.map(function (fileItem) {
       return fileItem.file;
     });
-    setImgCollection([].concat(_toConsumableArray(imgCollection), [items]));
+    setImgCollection(__spreadArrays(imgCollection, [items]));
   };
 
   var onSubmit = function onSubmit(e) {
@@ -52526,14 +52499,14 @@ var Filepond = function Filepond(_ref) {
       formData.append('imgCollection', imgCollection[0][img]);
     }
 
-    _axios.default.post("http://localhost:3001/create", formData, {}).then(function (res) {
+    axios_1.default.post("http://localhost:3001/create", formData, {}).then(function (res) {
       console.log('image Created', res.data);
       setImgCollection([]);
       setFile(res.data);
     });
   };
 
-  return _react.default.createElement(UploadFile, null, _react.default.createElement(FilepondStyle, null, _react.default.createElement(_reactFilepond.FilePond, {
+  return react_1.default.createElement(UploadFile, null, react_1.default.createElement(FilepondStyle, null, react_1.default.createElement(react_filepond_1.FilePond, {
     files: imgCollection,
     allowMultiple: true,
     server: null,
@@ -52543,22 +52516,18 @@ var Filepond = function Filepond(_ref) {
     acceptedFileTypes: ['image/*'],
     instantUpload: false,
     maxFileSize: "1MB",
-    labelIdle: "Drag & Drop your images or <span class=\"filepond--label-action\">Browse</span>"
-  })), _react.default.createElement(Button, {
+    labelIdle: 'Drag & Drop your images or <span class="filepond--label-action">Browse</span>'
+  })), react_1.default.createElement(Button, {
     onClick: onSubmit
-  }, "Submit"), _react.default.createElement(Upload, null, uploadFile));
+  }, "Submit"), react_1.default.createElement(Upload, null, uploadFile));
 };
 
-var UploadFile = _styledComponents.default.div(_templateObject());
-
-var FilepondStyle = _styledComponents.default.div(_templateObject2());
-
-var Button = _styledComponents.default.button(_templateObject3());
-
-var Upload = _styledComponents.default.p(_templateObject4());
-
-var _default = Filepond;
-exports.default = _default;
+var UploadFile = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  width: 100%;\n  height: 100vh;\n  background: grey;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n"], ["\n  width: 100%;\n  height: 100vh;\n  background: grey;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n"])));
+var FilepondStyle = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  width: 35%;\n  @media (max-width: 768px) {\n    width: 85%;\n  }\n"], ["\n  width: 35%;\n  @media (max-width: 768px) {\n    width: 85%;\n  }\n"])));
+var Button = styled_components_1.default.button(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  font-size: 1.5em;\n  background: transparent;\n  color: white;\n  cursor: pointer;\n  margin-bottom: 10px;\n"], ["\n  font-size: 1.5em;\n  background: transparent;\n  color: white;\n  cursor: pointer;\n  margin-bottom: 10px;\n"])));
+var Upload = styled_components_1.default.p(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n  font-size: 1em;\n  color: #5c5ca9;\n"], ["\n  font-size: 1em;\n  color: #5c5ca9;\n"])));
+exports.default = exports.Filepond;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
 },{"react":"../node_modules/react/index.js","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js","axios":"../node_modules/axios/index.js","react-filepond":"../node_modules/react-filepond/dist/react-filepond.js","filepond/dist/filepond.min.css":"../node_modules/filepond/dist/filepond.min.css","filepond-plugin-image-exif-orientation":"../node_modules/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js","filepond-plugin-image-preview":"../node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js","filepond-plugin-file-validate-size":"../node_modules/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js","filepond-plugin-file-validate-type":"../node_modules/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js","filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css":"../node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
@@ -52578,17 +52547,17 @@ var react_dom_1 = __importDefault(require("react-dom"));
 
 var global_style_1 = require("./global-style");
 
-var filepond_1 = __importDefault(require("./components/filepond"));
+var filepond_1 = require("./components/filepond");
 
 console.info("\u269B\uFE0F " + react_1.default.version);
 
 var App = function App() {
-  return react_1.default.createElement(react_1.default.Fragment, null, react_1.default.createElement(global_style_1.GlobalStyle, null), react_1.default.createElement(filepond_1.default, null));
+  return react_1.default.createElement(react_1.default.Fragment, null, react_1.default.createElement(global_style_1.GlobalStyle, null), react_1.default.createElement(filepond_1.Filepond, null));
 };
 
 react_dom_1.default.render(react_1.default.createElement(App, null), document.getElementById('root'));
 module.hot && module.hot.accept();
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./global-style":"global-style.ts","./components/filepond":"components/filepond.jsx"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./global-style":"global-style.ts","./components/filepond":"components/filepond.tsx"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -52616,7 +52585,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62128" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63892" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

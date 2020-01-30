@@ -30,6 +30,7 @@
   },
   "proxy": "http://localhost:3001/",
   "dependencies": {
+    "@types/node": "^13.5.2",
     "axios": "^0.19.2",
     "filepond": "^4.9.5",
     "filepond-plugin-file-validate-size": "^2.2.0",
